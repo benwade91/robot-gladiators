@@ -47,7 +47,7 @@ var fight = function (enemyName) {
     }
 };
 
-var startGame = function() {
+var startGame = function () {
     playerHealth = 100;
     playerAttack = 10;
     playerMoney = 10;
@@ -57,6 +57,12 @@ var startGame = function() {
             var pickedEnemyName = enemyNames[i];
             enemyHealth = 50
             fight(pickedEnemyName);
+            if (playerHealth > 0 && i < enemyNames.length - 1) {
+                var storeConfirm = window.confirm("Would you like to visit the store?");
+                if (storeConfirm) {
+                    shop();
+                }
+            }
         } else {
             alert("You have lost your robot it battle! Game Over!");
             break;
@@ -65,11 +71,11 @@ var startGame = function() {
     endGame();
 };
 
-var endGame = function() {
+var endGame = function () {
     window.alert("The game has now ended. Lets see how you did!");
     if (playerHealth > 0) {
-        window.alert("Great job, you've survived the game! You now have a score of " + playerMoney +"!");
-    } else { 
+        window.alert("Great job, you've survived the game! You now have a score of " + playerMoney + "!");
+    } else {
         window.alert("You've lost your robot in battle!")
     }
     var playAgainConfirm = window.confirm("Would you like to play again?");
@@ -79,5 +85,36 @@ var endGame = function() {
         window.alert("Thanks for playing Robot Gladiators!");
     }
 }
+
+var shop = function () {
+    var shopOptionPrompt = window.prompt("Would you like to REFILL your health, UPGRADE your attack, or LEAVE the store? Please enter one: 'REFILL', 'UPGRADE', or 'LEAVE' to make a choice.");
+    switch (shopOptionPrompt) {
+        case "refill":
+            if (playerMoney >= 7) {
+                window.alert("Refilling " + playerName + "'s health +20 for 7 dollars.");
+                playerHealth = playerHealth + 20;
+                playerMoney = playerMoney - 7;
+            } else {
+                window.alert("You dont have enough money!");
+            }
+            break;
+        case "upgrade":
+            if (playerMoney >= 7) {
+            window.alert("Upgrading player's attack +7 for 7 dollars.");
+            playerAttack = playerAttack + 7;
+            playerMoney = playerMoney - 7;
+            } else {
+                window.alert("You dont have enough money!");
+            }
+            break;
+        case "leave":
+            window.alert("Now leaving the store.");
+            break;
+        default:
+            window.alert("That didn't work! Try a valid option!");
+            shop();
+            break;
+    }
+};
 
 startGame();
