@@ -35,9 +35,11 @@ var startGame = function () {
 var endGame = function () {
     window.alert("The game has now ended. Lets see how you did!");
     if (playerInfo.health > 0) {
-        window.alert("Great job, you've survived the game! You now have a score of " + playerInfo.money + "!");
+        window.alert("Great job, you've survived the game! You now have a score of " + playerInfo.score + "!");
+        highScore();
     } else {
-        window.alert("You've lost your robot in battle!")
+        window.alert("You've lost your robot in battle! Your final score is " + playerInfo.score)
+        highScore();
     }
     var playAgainConfirm = window.confirm("Would you like to play again?");
     if (playAgainConfirm) {
@@ -46,7 +48,16 @@ var endGame = function () {
         window.alert("Thanks for playing Robot Gladiators!");
     }
 }
-
+var highScore = function() {
+    var currentHigh = localStorage.getItem("High Score");
+    var yourHigh = playerInfo.score;
+    if (yourHigh > currentHigh){
+        localStorage.setItem("High Score", playerInfo.score);
+        window.alert("New high score! " + localStorage.getItem("High Score"));
+    } else { 
+        window.alert("The high score is " + localStorage.getItem("High Score"));
+    }
+}
 var fight = function (enemy) {
     console.log(enemy);
     while (enemy.health > 0 && playerInfo.health > 0) {
@@ -76,6 +87,7 @@ var fight = function (enemy) {
                 if (enemy.health <= 0) {
                     window.alert(enemy.name + " has died!");
                     playerInfo.money += 5;
+                    playerInfo.score++;
                     break;
                 } else {
                     window.alert(enemy.name + " still has " + enemy.health + " health!");
@@ -111,6 +123,7 @@ var fight = function (enemy) {
                 if (enemy.health <= 0) {
                     window.alert(enemy.name + " has died!");
                     playerInfo.money += 5;
+                    playerInfo.score++;
                     break;
                 } else {
                     window.alert(enemy.name + " still has " + enemy.health + " health!");
@@ -144,6 +157,7 @@ var playerInfo = {
     health: 100,
     attack: 10,
     money: 10,
+    score: 0,
     reset: function () {
         this.health = 100;
         this.attack = 10;
